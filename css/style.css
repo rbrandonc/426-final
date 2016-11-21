@@ -1,0 +1,112 @@
+@font-face {
+    font-family: roughnotes;
+    src: url(fonts/roughnotes.ttf);
+}
+
+@font-face {
+    font-family: steelfish;
+    src: url(fonts/steelfish.ttf);
+}
+
+html{
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+
+}
+
+body{
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+	display: flex;
+	overflow: hidden;
+}
+
+#left{
+	background-color: #555;
+	border-collapse: collapse;
+
+	height: 100%;
+	width: 20%;
+	/*padding: 10px;*/
+	text-align: center;
+	line-height: 25px;
+}
+
+#right{
+	background-color: rgb(50, 50, 50);
+	height: 100%;
+	padding: 10px;
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+
+}
+
+#top{
+	box-shadow: inset 0px 0px 10px 0px black;
+	background-image: url(../images/maps.png);
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+
+}
+
+#bottom{
+	background-color: #555;
+	width: 70%;
+	border-radius: 20px;
+	height: 125px;
+	position: absolute;
+	bottom: -20px;
+	left: 50%;
+	margin-left: -25%;
+	box-shadow: 0px 0px 10px 0px black;
+	padding-top: 15px;
+}
+
+h1{
+	background-color: #777;
+	width: 100%;
+	/*display: block;*/
+	font-size: 25px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+#forecast{
+	width:100%;
+	text-align: center;
+}
+
+#forecast td{
+	background-color: #777
+	border-collapse: collapse;
+}
+
+.column{
+	flex: 1;
+    box-sizing: border-box;
+}
+
+.c1{
+	order: 1;
+}
+
+.c2{
+	order: 2;
+	flex-basis: 70%;
+	height:100%;
+}
+
+.c3{
+	order: 3;
+}
