@@ -1,6 +1,13 @@
 var port = 1337;
 var express = require('express');
 var app = express();
+var fs = require('fs');
+var https = require('https');
+
+var options = {
+	key : fs.readFileSync('server.key'),
+	cert : fs.readFileSync('server.crt')
+};
 
 app.set('view engine', 'pug')
 
@@ -21,6 +28,10 @@ app.use('/', function(req, res) {
     res.render('index', {title: 'test'});
 });
 
-app.listen(port);
+//app.listen(port);
 
-console.log('Server running at http://localhost:' + port);
+https.createServer(options, app).listen(port, function(){
+	console.log('Server running at http://localhost:' + port);
+});
+
+
