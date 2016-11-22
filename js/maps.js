@@ -11,7 +11,7 @@ function initMap() {
         // Create a marker and set its position.
         var marker = new google.maps.Marker({
           map: map,
-          position: pos,
+          position: myLatLng,
           title: 'Vacation Destination'
         });
 
