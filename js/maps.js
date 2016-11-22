@@ -20,14 +20,16 @@ function initMap() {
               //infoWindow.setPosition(pos);
               //infoWindow.setContent('Location found.');
               map.setCenter(pos);
-            });
 
-            // Create a marker and set its position.
+              // Create a marker and set its position.
             var marker = new google.maps.Marker({
               map: map,
               position: pos,
               title: 'Vacation Destination'
             });
+            });
+
+
          // }
           // else{
           //   console.log("no location");
