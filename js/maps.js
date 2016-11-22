@@ -25,6 +25,6 @@ function initMap() {
               infoWindow.setPosition(pos);
               infoWindow.setContent('Location found.');
               map.setCenter(pos);
-            }
+            });
           }
       }
