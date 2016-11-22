@@ -7,6 +7,7 @@ function initMap() {
           scrollwheel: false,
           zoom: 4
 
+          if(navigator.location){
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
               lat: position.coords.latitude,
@@ -17,6 +18,7 @@ function initMap() {
             infoWindow.setContent('Location found.');
             map.setCenter(pos);
           }
+        }
         });
 
         // Create a marker and set its position.
