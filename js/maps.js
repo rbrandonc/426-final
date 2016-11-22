@@ -6,12 +6,23 @@ function initMap() {
           center: myLatLng,
           scrollwheel: false,
           zoom: 4
+
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            map.setCenter(pos);
+          }
         });
 
         // Create a marker and set its position.
         var marker = new google.maps.Marker({
           map: map,
-          position: myLatLng,
-          title: 'Hello World!'
+          position: pos,
+          title: 'Vacation Destination'
         });
       }
