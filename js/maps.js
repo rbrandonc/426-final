@@ -22,8 +22,8 @@ function initMap() {
                 lng: position.coords.longitude
               };
 
-              infoWindow.setPosition(pos);
-              infoWindow.setContent('Location found.');
+              //infoWindow.setPosition(pos);
+              //infoWindow.setContent('Location found.');
               map.setCenter(pos);
             });
          // }
