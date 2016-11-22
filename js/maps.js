@@ -15,7 +15,7 @@ function initMap() {
           title: 'Vacation Destination'
         });
 
-        if(navigator.location){
+        //if(navigator.location){
             navigator.geolocation.getCurrentPosition(function(position) {
               var pos = {
                 lat: position.coords.latitude,
@@ -27,7 +27,7 @@ function initMap() {
               map.setCenter(pos);
             });
           }
-          else{
-            console.log("no location");
-          }
+          // else{
+          //   console.log("no location");
+          // }
       }
