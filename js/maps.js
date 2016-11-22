@@ -27,4 +27,7 @@ function initMap() {
               map.setCenter(pos);
             });
           }
+          else{
+            console.log("no location");
+          }
       }
