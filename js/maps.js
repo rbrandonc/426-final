@@ -26,7 +26,7 @@ function initMap() {
               infoWindow.setContent('Location found.');
               map.setCenter(pos);
             });
-          }
+         // }
           // else{
           //   console.log("no location");
           // }
