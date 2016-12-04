@@ -1,8 +1,10 @@
 var port = 1337;
+var port2 = 1338;
 var express = require('express');
 var app = express();
 var fs = require('fs');
 var https = require('https');
+var http = require('http');
 
 var options = {
 	key : fs.readFileSync('server.key'),
@@ -25,13 +27,32 @@ app.post('/update', function(req, res) {
 });
 
 app.use('/', function(req, res) {
-    res.render('index', {title: 'test'});
+    res.render('index', {title: 'Vacation Destinations'});
+	console.log("test");
 });
 
-//app.listen(port);
+//REST routes
+app.get('/destinations', function(req, res){
+
+});
+
+app.post('/destinations', function(req, res){
+
+});
+
+app.get('/destinations/:id', function(req, res){
+
+});
+
+app.post('/destinations/:id', function(req, res){
+
+});
+
+app.delete('/destinations/:id', function(req, res){
+
+});
 
 https.createServer(options, app).listen(port, function(){
-	console.log('Server running at http://localhost:' + port);
+	console.log('Server running at https://localhost:' + port);
 });
-
 
