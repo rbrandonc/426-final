@@ -1,6 +1,6 @@
 {
   "name": "mean",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.14.0",
-    "jade": "~1.9.2"
+    "jade": "~1.9.2",
+    "mongodb": "^2.2.12"
   }
 }
