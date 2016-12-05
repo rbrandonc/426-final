@@ -1,3 +1,7 @@
+* {
+	font-family: Arial;
+}
+
 @font-face {
 	font-family: roughnotes;
 	src: url(fonts/roughnotes.ttf);
@@ -83,6 +87,7 @@ h1 {
 }
 
 #forecast td {
+	width: 20%;
 	background-color: #777;
 	border-collapse: collapse;
 }

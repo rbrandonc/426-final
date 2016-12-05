@@ -25,6 +25,7 @@ function initMap() {
     // Create a marker and set its position.
     var marker;
 
+    // take out of function?
     function placeMarker(pos, map) {
       if (marker) {
         marker.setPosition(pos);
@@ -37,13 +38,16 @@ function initMap() {
       }
     }
 
+    fillDates();
+
     google.maps.event.addListener(map, 'click', function (event) {
       placeMarker(event.latLng, map);
-      console.log(event.latLng);
       $('#location').val(event.latLng);
 
-      $.ajax({
-          url: 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/37.8267,-122.4233',
+      apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + event.latLng.lat() + ',' + event.latLng.lng();
+      console.log(apiURL);
+      /*$.ajax({ // weather API call
+          url: apiURL,  
           //crossDomain: true,
           dataType: 'jsonp'
         })
@@ -54,14 +58,14 @@ function initMap() {
         .fail(function (xhr, textStatus, error) {
           console.log(failed);
           console.log(xhr.responseText);
-        });
+        });*/
 
     });
 
     $('#submit').click(function (e) {
-      e.preventDefault();
-      var location = $('#location').val();
+      e.preventDefault(); // prevent map from reloading
       var distance = $('#distance').val();
+      var location = $('#location').val();
       console.log(location);
       console.log(distance);
     });
@@ -89,10 +93,25 @@ function initMap() {
 //$(document).ready(function(e) {
 //});
 
-var parseWeather = function (data) {
+var parseWeather = function(data) {
   var summary = data.daily.summary;
   $('#summary').text(summary);
   var day1 = ["High: " + data.daily.data[0]['temperatureMax'], "Low: " + data.daily.data[0]['temperatureMin']];
   $('#day1').empty();
   $('#day1').text(day1);
+};
+
+var fillDates = function() {
+  var date = new Date();
+
+  $('#day1date').text(date.getMonth() + '/' + date.getDate());
+  date.setDate(date.getDate() + 1);
+  $('#day2date').text(date.getMonth() + '/' + date.getDate());
+  date.setDate(date.getDate() + 1);
+  $('#day3date').text(date.getMonth() + '/' + date.getDate());
+  date.setDate(date.getDate() + 1);
+  $('#day4date').text(date.getMonth() + '/' + date.getDate());
+  date.setDate(date.getDate() + 1);
+  $('#day5date').text(date.getMonth() + '/' + date.getDate());
+
 };

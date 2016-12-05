@@ -24,11 +24,11 @@ html
 					caption(style='font-weight:bold') Forecast
 					thead
 						tr
-							th todo: Add date
-							th todo: Add date
-							th todo: Add date
-							th todo: Add date
-							th todo: Add date
+							th.date#day1date
+							th.date#day2date
+							th.date#day3date
+							th.date#day4date
+							th.date#day5date
 					tbody
 						tr
 							td.day#day1 test
@@ -39,6 +39,5 @@ html
 				
 		footer
 		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
-		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js")
 		script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPIPOe68My_IpNeVYYew5zI68uEXNK3k&callback=initMap", async, defer)
 		script(src="js/maps.js")
