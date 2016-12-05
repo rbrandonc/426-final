@@ -58,6 +58,14 @@ function initMap() {
 
     });
 
+    $('#submit').click(function (e) {
+      e.preventDefault();
+      var location = $('#location').val();
+      var distance = $('#distance').val();
+      console.log(location);
+      console.log(distance);
+    });
+
     /*map.addListener('center_changed', function () {
       // 3 seconds after the center of the map has changed, pan back to the
       // marker.
@@ -81,14 +89,7 @@ function initMap() {
 //$(document).ready(function(e) {
 //});
 
-$('#submit').click(function () {
-  var location = $('#location').val();
-  var distance = $('#distance').val();
-  console.log(location);
-  console.log(distance);
-});
-
-var parseWeather = function(data) {
+var parseWeather = function (data) {
   var summary = data.daily.summary;
   $('#summary').text(summary);
   var day1 = ["High: " + data.daily.data[0]['temperatureMax'], "Low: " + data.daily.data[0]['temperatureMin']];
