@@ -8,7 +8,7 @@ html
 			form
 				h1 Find a Destination!
 				text within 
-				input(type='number', name='distance', value='0' style='width: 50px', id='distance')
+				input(type='number', name='distance', value='0', style='width: 50px', id='distance')
 				text  miles
 				br
 				text of 
@@ -18,14 +18,27 @@ html
 		div#right.column.c2
 			div#top
 			div#bottom
-			table#forecast
-				td Forecast
-				tr.day
-				tr.day
-				tr.day
-				tr.day
-				tr.day
+				div#summary(style='height:5px')
+					p Weather summary here
+				table#forecast(style='display: inline-block; padding:8px;')
+					caption(style='font-weight:bold') Forecast
+					thead
+						tr
+							th todo: Add date
+							th todo: Add date
+							th todo: Add date
+							th todo: Add date
+							th todo: Add date
+					tbody
+						tr
+							td.day#day1 test
+							td.day#day2 test
+							td.day#day3 test
+							td.day#day4 test
+							td.day#day5 test
+				
 		footer
 		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js")
 		script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPIPOe68My_IpNeVYYew5zI68uEXNK3k&callback=initMap", async, defer)
 		script(src="js/maps.js")
