@@ -31,11 +31,11 @@ app.post('/update', function(req, res) {
 });
 
 app.use('/', function(req, res) {
-    res.render('index', {title: 'Vacation Destinations'});
-	console.log("test");
+  res.render('index', {title: 'Vacation Destinations'});
+	console.log("app.use test");
 });
 
-//REST routes
+// REST routes
 app.get('/destinations', function(req, res){
 
 });

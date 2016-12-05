@@ -8,13 +8,13 @@ html
 			form
 				h1 Find a Destination!
 				text within 
-				input(type='number', name='distance', value='0' style='width: 50px')
+				input(type='number', name='distance', value='0' style='width: 50px', id='distance')
 				text  miles
 				br
 				text of 
-				input(type='text', name='location', value='')
+				input(type='text', name='location', value='', id='location')
 				br
-				input(type='submit', value='Go!')
+				input(type='submit', value='Go!', id='submit')
 		div#right.column.c2
 			div#top
 			div#bottom
@@ -26,6 +26,6 @@ html
 				tr.day
 				tr.day
 		footer
-		script(src="js/maps.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
 		script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPIPOe68My_IpNeVYYew5zI68uEXNK3k&callback=initMap", async, defer)
-		
+		script(src="js/maps.js")
