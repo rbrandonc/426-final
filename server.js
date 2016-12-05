@@ -10,8 +10,8 @@ var db;
 
 var fs = require('fs');
 var options = {
-	key : fs.readFileSync('server.key'),
-	cert : fs.readFileSync('server.crt')
+	key : fs.readFileSync('server/server.key'),
+	cert : fs.readFileSync('server/server.crt')
 };
 
 var app = express();
