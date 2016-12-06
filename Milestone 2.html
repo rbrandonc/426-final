@@ -1,0 +1,59 @@
+<p>Database Layout</p>
+
+<p>{<br />
+ &emsp;&quot;id&quot;: ObjectID,<br />
+ &emsp;&quot;createDate&quot;: Date,<br />
+ &emsp;&quot;Name&quot;: string,<br />
+ &emsp;&quot;Description&quot;: string,<br />
+ &emsp;&quot;Location&quot;: string, -- This will depend on what we need to re-access a location from the Google places API, not sure what specific data needs recording yet<br />
+ &emsp;&quot;Day 1&quot;: {<br />
+ &emsp;&emsp;&quot;Date&quot;: string,<br />
+ &emsp;&emsp;&quot;Weather&quot;: string,<br />
+ &emsp;&emsp;&quot;High&quot;: string,<br />
+ &emsp;&emsp;&quot;Low&quot;: string<br />
+ },<br />
+ &emsp;&quot;Day 2&quot;: {<br />
+&emsp;&emsp;&quot;Date&quot;: string,<br />
+ &emsp;&emsp;&quot;Weather&quot;: string,<br />
+ &emsp;&emsp;&quot;High&quot;: string,<br />
+ &emsp;&emsp;&quot;Low&quot;: string<br />
+ },<br />
+ &emsp;&quot;Day 3&quot;: {<br />
+ &emsp;&emsp;&quot;Date&quot;: string,<br />
+&emsp;&emsp;&quot;Weather&quot;: string,<br />
+ &emsp;&emsp;&quot;High&quot;: string,<br />
+ &emsp;&emsp;&quot;Low&quot;: string<br />
+ },<br />
+ &emsp;&quot;Day 4&quot;: {<br />
+ &emsp;&emsp;&quot;Date&quot;: string,<br />
+ &emsp;&emsp;&quot;Weather&quot;: string,<br />
+ &emsp;&emsp;&quot;High&quot;: string,<br />
+ &emsp;&emsp;&quot;Low&quot;: string<br />
+ },<br />
+ &emsp;&quot;Day 5&quot;: {<br />
+ &emsp;&emsp;&quot;Date&quot;: string,<br />
+ &emsp;&emsp;&quot;Weather&quot;: string,<br />
+ &emsp;&emsp;&quot;High&quot;: string,<br />
+ &emsp;&emsp;&quot;Low&quot;: string<br />
+ },<br />
+}</p>
+
+<p>REST Description</p>
+
+<p>- /destinations<br />
+ &emsp;- GET: all destinations<br />
+ &emsp;&emsp;- Request is any GET to the url<br />
+ &emsp;&emsp;- Response is all of the json detination entries<br />
+ &emsp;- POST: create a new destination<br />
+ &emsp;&emsp;- Request is a POST containing a creation date, name, location, and description<br />
+ &emsp;&emsp;- Response is a json destination entry<br />
+ - /destinations/:id<br />
+ &emsp;- GET: a single destination by ID<br />
+ &emsp;&emsp;- Request includes an ID<br />
+ &emsp;&emsp;- Response is a json destination with the matching ID<br />
+ &emsp;- POST: update a destination (unneeded?)<br />
+ &emsp;&emsp;- Request includes an ID and which fields to update<br />
+ &emsp;&emsp;- Response is the updated object<br />
+ &emsp;- DELETE: remove a destination by ID<br />
+ &emsp;&emsp;- Request is an ID<br />
+ &emsp;&emsp;- No response</p>
