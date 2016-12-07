@@ -173,9 +173,8 @@ function initMap() {
     apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + event.latLng.lat() + ',' + event.latLng.lng();
     console.log(apiURL);
     /*$.ajax({ // weather API call
-      url: apiURL,  
-      //crossDomain: true,
-      dataType: 'jsonp'
+      url: apiURL,
+      dataType: 'jsonp' // TODO: if I ever feel like being a good programmer, change to CORS request
      })
      .done(function (data) {
       console.log(data);
