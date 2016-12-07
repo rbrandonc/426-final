@@ -110,6 +110,10 @@ input {
 	width: 300px;
 }
 
+#destination {
+	width: 400px;
+}
+
 #submit {
 	border: none;
 	color: #666;
@@ -172,4 +176,12 @@ th {
 	top: 0;
 	right: -15px;
 	width: 15px;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+#nearbyLocation {
+	text-decoration: underline;
 }

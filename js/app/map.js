@@ -4,8 +4,7 @@ function initMap() {
     lat: -25.363,
     lng: 131.044
   };
-  var date = new Date();
-  fillDates(date);
+  fillDates();
 
   // Create a map object and specify the DOM element for display.
   // Styles a map in night mode.
@@ -14,7 +13,7 @@ function initMap() {
       lat: 40.674,
       lng: -73.945
     },
-    zoom: 12,
+    zoom: 7,
     disableDefaultUI: true,
     styles: [{
       "featureType": "all",
@@ -129,6 +128,7 @@ function initMap() {
     }]
   });
   var geocoder = new google.maps.Geocoder();
+  var placesService = new google.maps.places.PlacesService(map);
 
   /*
   Set initial location of map
@@ -170,9 +170,52 @@ function initMap() {
     currentLatLng = event.latLng;
     placeMarker(currentLatLng, map);
     lookupLocationName(geocoder, currentLatLng);
+  });
 
-    apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + event.latLng.lat() + ',' + event.latLng.lng();
-    console.log(apiURL);
+  map.addListener(map, 'dragend', function (event) {
+    map.setCenter({
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng()
+    });
+  });
+
+  /*
+  Zoom in map if marker is clicked on. 
+  */
+  if (marker) {
+    marker.addListener('click', function () {
+      map.setZoom(9);
+      map.setCenter(marker.getPosition());
+    });
+  }
+
+  /*
+  Change center of map when marker is clicked on.
+  */
+  /*map.addListener('center_changed', function () {
+    // 3 seconds after the center of the map has changed, pan back to the
+    // marker.
+    window.setTimeout(function () {
+      if (marker) {
+        map.panTo(marker.getPosition());
+      }
+    }, 2000);
+  });*/
+
+  /*
+  When 'go' button is clicked
+  Add a new database entry in MongoDB according to database schema
+  */
+  var nearbyLocation;
+  $('#submit').click(function (e) {
+    e.preventDefault(); // prevent map from reloading
+    setTimeout(findNearbyLocation(placesService, currentLatLng), 2000);
+    console.log('TEST' + nearbyLocation);
+    $('#destination').removeClass('hidden');
+    $('#nearbyLocation').html('&nbsp;&nbsp;&nbsp;' + nearbyLocation.vicinity + '&nbsp;&nbsp;&nbsp;');
+
+    //apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + event.latLng.lat() + ',' + event.latLng.lng();
+    //console.log(apiURL);
     /*$.ajax({ // weather API call
         url: apiURL,
         dataType: 'jsonp' // TODO: if I ever feel like being a good programmer, change to CORS request
@@ -185,39 +228,8 @@ function initMap() {
         console.log(failed);
         console.log(xhr.responseText);
       });*/
+    // postDestination();
 
-  });
-
-  /*
-  Zoom in map if marker is clicked on. 
-  */
-  if (marker) {
-    marker.addListener('click', function () {
-      map.setZoom(8);
-      map.setCenter(marker.getPosition());
-    });
-  }
-
-  /*
-  Change center of map when marker is clicked on.
-  */
-  map.addListener('center_changed', function () {
-    // 3 seconds after the center of the map has changed, pan back to the
-    // marker.
-    window.setTimeout(function () {
-      if (marker) {
-        map.panTo(marker.getPosition());
-      }
-    }, 2000);
-  });
-
-  /*
-  When 'go' button is clicked
-  Add a new database entry in MongoDB according to database schema
-  */
-  $('#submit').click(function (e) {
-    e.preventDefault(); // prevent map from reloading
-    postDestination(distance);
   });
 
   /*
@@ -247,23 +259,53 @@ function initMap() {
   function postDestination() {
     var jsonData = {};
 
-    jsonData.dateCreated = (date.getMonth() + 1) + '/' + date.getDay() + '/' + date.getFullYear();
+    var date = new Date();
+    jsonData.dateCreated = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
     jsonData.latitude = currentLatLng.lat();
     jsonData.longitude = currentLatLng.lng();
     jsonData.locationName = $('#location').val();
+    jsonData.nearbyLocationName = 'temp';
+    jsonData.nearbyLocationLatitude = 'temp';
     jsonData.distance = $('#distance').val();
     var days = ["day0", "day1", "day2", "day3", "day4"];
     for (var i = 0; i < 5; i++) {
       days[i] = {
         "date": $('#day' + i + 'date').text(),
         "weather": $('#day' + i + ' .forecast').text(),
-        "low": $('#day' + i + ' .temp').text().split("/")[0],
-        "high": $('#day' + i + ' .temp').text().split("/")[1]
+        "high": $('#day' + i + ' .temp').text().split("/")[0],
+        "low": $('#day' + i + ' .temp').text().split("/")[1]
       };
       jsonData['day' + i] = days[i];
     }
     console.log(jsonData);
   }
+
+  /*
+  Find nearby location when user clicks 'go'
+  */
+  var findNearbyLocation = function (placesService, coordinates) {
+    distance = $('#distance').val() * 1609.344; // convert to meters
+    var request = {
+      location: {
+        lat: coordinates.lat(),
+        lng: coordinates.lng()
+      },
+      radius: distance,
+    };
+    // var chosenNearbyLocation;
+    placesService.nearbySearch(request, function (results, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        //console.log(results.length);
+        //console.log(results[results.length - 1]);
+        //console.log(Math.floor((Math.random(results.length) * results.length) + 1));
+        nearbyLocation = results[results.length - 1];
+        console.log(nearbyLocation);
+        //return chosenNearbyLocation;
+      } else {
+        return;
+      }
+    });
+  };
 
 }
 
@@ -286,7 +328,8 @@ var parseWeather = function (data) {
 /*
 Fill dates table in index.pug
 */
-var fillDates = function (date) {
+var fillDates = function () {
+  var date = new Date();
   var days = [
     "Sunday",
     "Monday",

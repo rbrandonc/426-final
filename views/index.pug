@@ -10,13 +10,17 @@ html
         img(src="/images/logo.png" alt="logo" height="40px" width="40px")
       
       span
-        text Find a Destination! within  
-        input(type='number', min='0' name='distance', value='0', id='distance') 
+        text Find a destination within  
+        input(type='number', min='1' name='distance', value='1', id='distance') 
         text   miles of  
         input(type='text', name='location', value='place', id='location')
         text  
       
       input(type='submit', value='Go!', id='submit')
+
+      span.hidden#destination
+        text Your destination is &nbsp;
+        text#nearbyLocation
     
     div#map
 
@@ -34,31 +38,31 @@ html
         tbody
           tr
             td.day#day0
-              text.temp 50°/74°
+              text.temp 42°/23°
               br
               text.forecast Mostly Sunny
             td.icon.shadow#day0icon
               img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
             td.day#day1
-              text.temp 50°/74°
+              text.temp 44°/25°
               br
               text.forecast Mostly Sunny
             td.icon.shadow#day1icon
               img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
             td.day#day2
-              text.temp 50°/74°
+              text.temp 48°/40°
               br
               text.forecast Mostly Sunny
             td.icon.shadow#day2icon
               img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
             td.day#day3
-              text.temp 50°/74°
+              text.temp 58°/31°
               br
               text.forecast Mostly Sunny
             td.icon.shadow#day3icon
               img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
             td.day#day4
-              text.temp 50°/74°
+              text.temp 50°/33°
               br
               text.forecast Mostly Sunny
             td.icon.shadow#day4icon
@@ -67,4 +71,4 @@ html
     footer
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
     script(src="js/app/map.js")
-    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPIPOe68My_IpNeVYYew5zI68uEXNK3k&callback=initMap", async, defer)
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPIPOe68My_IpNeVYYew5zI68uEXNK3k&callback=initMap&libraries=places", async, defer)
