@@ -47,11 +47,11 @@ REST Description
 	- POST: create a new destination
 		- Request is a POST containing a creation date, name, location, and description
 		- Response is a json destination entry
-- /destinations/:id
+- /destination/:id
 	- GET: a single destination by ID
 		- Request includes an ID
 		- Response is a json destination with the matching ID
-	- POST: update a destination (unneeded?)
+	- PUT: update a destination (unneeded?)
 		- Request includes an ID and which fields to update
 		- Response is the updated object
 	- DELETE: remove a destination by ID

@@ -34,6 +34,15 @@ var destinations = require('./routes/destinations');
 app.use('/', index);
 app.use('/api', destinations);
 
+// thing for Brandon's server to update
+app.post('/update', function(req, res) {
+	console.log("got a post");
+	var sys = require('sys');
+	var exec = require('child_process').exec;
+	function puts(error, stdout, stderr) { sys.puts(stdout); }
+	exec("sh github/update.sh", puts);
+});
+
 https.createServer(options, app).listen(port, function(){
 	console.log('Server running at https://localhost:' + port);
 });
