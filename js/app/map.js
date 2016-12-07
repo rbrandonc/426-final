@@ -247,9 +247,9 @@ function initMap() {
   function postDestination() {
     var jsonData = {};
 
-    jsonData.createDate = (date.getMonth() + 1) + '/' + date.getDay() + '/' + date.getFullYear();
-    jsonData.lat = currentLatLng.lat();
-    jsonData.lng = currentLatLng.lng();
+    jsonData.dateCreated = (date.getMonth() + 1) + '/' + date.getDay() + '/' + date.getFullYear();
+    jsonData.latitude = currentLatLng.lat();
+    jsonData.longitude = currentLatLng.lng();
     jsonData.locationName = $('#location').val();
     jsonData.distance = $('#distance').val();
     var days = ["day0", "day1", "day2", "day3", "day4"];

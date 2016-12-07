@@ -1,69 +1,70 @@
 html
-	head
-		title=title
-		link(rel='stylesheet', href='/css/style.css')
-		
-	body.flexcontainer
-		div#top
-			div#logo
-				img(src="/images/logo.png" alt="logo" height="40px" width="40px")
-			
-			span
-				text Find a Destination! within  
-				input(type='number', min='0' name='distance', value='0', id='distance') 
-				text   miles of  
-				input(type='text', name='location', value='place', id='location')
-				text  
-			
-			input(type='submit', value='Go!', id='submit')
-		
-		div#map
+  head
+    title=title
+    link(href='//fonts.googleapis.com/css?family=Ubuntu', rel='stylesheet', type='text/css')
+    link(rel='stylesheet', href='/css/style.css')
+    
+  body.flexcontainer
+    div#top
+      div#logo
+        img(src="/images/logo.png" alt="logo" height="40px" width="40px")
+      
+      span
+        text Find a Destination! within  
+        input(type='number', min='0' name='distance', value='0', id='distance') 
+        text   miles of  
+        input(type='text', name='location', value='place', id='location')
+        text  
+      
+      input(type='submit', value='Go!', id='submit')
+    
+    div#map
 
-		div#bottom
-			div#titlebar 
-				text Forecast&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;My Places
-			table#forecast
-				thead
-					tr
-						th.date#day0date(colspan="2").shadow
-						th.date#day1date(colspan="2").shadow
-						th.date#day2date(colspan="2").shadow
-						th.date#day3date(colspan="2").shadow
-						th.date#day4date(colspan="2").shadow
-				tbody
-					tr
-						td.day#day0
-							text.temp 50°/74°
-							br
-							text.forecast Mostly Sunny
-						td.icon.shadow#day0icon
-							img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
-						td.day#day1
-							text.temp 50°/74°
-							br
-							text.forecast Mostly Sunny
-						td.icon.shadow#day1icon
-							img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
-						td.day#day2
-							text.temp 50°/74°
-							br
-							text.forecast Mostly Sunny
-						td.icon.shadow#day2icon
-							img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
-						td.day#day3
-							text.temp 50°/74°
-							br
-							text.forecast Mostly Sunny
-						td.icon.shadow#day3icon
-							img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
-						td.day#day4
-							text.temp 50°/74°
-							br
-							text.forecast Mostly Sunny
-						td.icon.shadow#day4icon
-							img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
-				
-		footer
-		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
-		script(src="js/app/map.js")
-		script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPIPOe68My_IpNeVYYew5zI68uEXNK3k&callback=initMap", async, defer)
+    div#bottom
+      div#titlebar 
+        text Forecast&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;My Places
+      table#forecast
+        thead
+          tr
+            th.date#day0date(colspan="2").shadow
+            th.date#day1date(colspan="2").shadow
+            th.date#day2date(colspan="2").shadow
+            th.date#day3date(colspan="2").shadow
+            th.date#day4date(colspan="2").shadow
+        tbody
+          tr
+            td.day#day0
+              text.temp 50°/74°
+              br
+              text.forecast Mostly Sunny
+            td.icon.shadow#day0icon
+              img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
+            td.day#day1
+              text.temp 50°/74°
+              br
+              text.forecast Mostly Sunny
+            td.icon.shadow#day1icon
+              img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
+            td.day#day2
+              text.temp 50°/74°
+              br
+              text.forecast Mostly Sunny
+            td.icon.shadow#day2icon
+              img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
+            td.day#day3
+              text.temp 50°/74°
+              br
+              text.forecast Mostly Sunny
+            td.icon.shadow#day3icon
+              img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
+            td.day#day4
+              text.temp 50°/74°
+              br
+              text.forecast Mostly Sunny
+            td.icon.shadow#day4icon
+              img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
+        
+    footer
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+    script(src="js/app/map.js")
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPIPOe68My_IpNeVYYew5zI68uEXNK3k&callback=initMap", async, defer)

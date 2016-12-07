@@ -1,0 +1,61 @@
+Database Schema
+
+{
+	"id": <ObjectID>,
+	"dateCreated": <String>,
+	"latitude": <float>,
+	"longitude": <float>,
+	"distance": <int>,
+	"locationName": <string>,
+	"day 0": {
+		"date": <string>,
+		"weather": <string>,
+		"low": <string>,
+		"high": <string>
+	},
+	"day 1": {
+		"date": <string>,
+		"weather": <string>,
+		"low": <string>,
+    "high": <string>
+	},
+	"day 2": {
+		"date": <string>,
+		"weather": <string>,
+		"low": <string>,
+    "high": <string>
+	},
+	"day 3": {
+		"date": <string>,
+		"weather": <string>,
+		"low": <string>,
+    "high": <string>
+	},
+	"day 5": {
+		"date": <string>,
+		"weather": <string>,
+		"low": <string>,
+    "high": <string>
+	},
+}
+
+REST Description
+
+- /destinations
+	- GET: all destinations
+		- Request is any GET to the url
+		- Response is all of the json detination entries
+- /destination
+  - POST: create a new destination
+    - Request is a POST containing a creation date, name, location, and description
+    - Response is a json destination entry
+- /destination/:id
+	- GET: a single destination by ID
+		- Request includes an ID
+		- Response is a json destination with the matching ID
+	- PUT: update a destination (unneeded?)
+		- Request includes an ID and which fields to update
+		- Response is the updated object
+	- DELETE: remove a destination by ID
+		- Request is an ID
+		- No response

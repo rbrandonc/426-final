@@ -1,10 +1,6 @@
-@font-face {
-	font-family: 'Ubuntu';
-	src: url('../fonts/Ubuntu-R.ttf') format('truetype');
-}
-
 * {
-	font-family: 'Ubuntu';
+	font-family: Ubuntu;
+	font-weight: 400;
 }
 
 html {
@@ -94,7 +90,6 @@ body {
 
 text {
 	color: #666;
-	font-family: 'Ubuntu';
 }
 
 input {
@@ -104,7 +99,6 @@ input {
 	border-bottom: solid black 1px;
 	text-align: center;
 	color: #7BAFD4;
-	font-family: 'Ubuntu';
 	font-size: 16;
 }
 
@@ -132,7 +126,6 @@ input {
 }
 
 table {
-	font-family: 'Ubuntu';
 	border-collapse: collapse;
 	z-index: 1;
 }
