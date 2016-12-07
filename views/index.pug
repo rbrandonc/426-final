@@ -10,7 +10,7 @@ html
 			
 			span
 				text Find a Destination! within  
-				input(type='number', name='distance', value='0', id='distance') 
+				input(type='number', min='0' name='distance', value='0', id='distance') 
 				text   miles of  
 				input(type='text', name='location', value='place', id='location')
 				text  
@@ -65,5 +65,5 @@ html
 				
 		footer
 		script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
-		script(src="js/maps.js")
+		script(src="js/app/map.js")
 		script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPIPOe68My_IpNeVYYew5zI68uEXNK3k&callback=initMap", async, defer)
