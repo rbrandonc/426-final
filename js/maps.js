@@ -127,6 +127,7 @@ function initMap() {
       }]
     }]
   });
+  var geocoder = new google.maps.Geocoder;
 
   /*
   Set initial location of map
@@ -146,6 +147,7 @@ function initMap() {
   /* 
   Create single marker and set its position 
   */
+  var currentLatLng;
   var marker;
 
   function placeMarker(pos, map) {
@@ -161,15 +163,16 @@ function initMap() {
   }
 
   /*
-  Move marker to where user clicks.  
+  Move marker to where user clicks and make weather API call.
   */
   google.maps.event.addListener(map, 'click', function (event) {
-    placeMarker(event.latLng, map);
-    $('#location').val(event.latLng);
+    currentLatLng = event.latLng;
+    placeMarker(currentLatLng, map);
+    lookupLocationName(geocoder, currentLatLng);
 
     apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + event.latLng.lat() + ',' + event.latLng.lng();
     console.log(apiURL);
-    $.ajax({ // weather API call
+    /*$.ajax({ // weather API call
       url: apiURL,  
       //crossDomain: true,
       dataType: 'jsonp'
@@ -181,7 +184,7 @@ function initMap() {
      .fail(function (xhr, textStatus, error) {
       console.log(failed);
       console.log(xhr.responseText);
-     });
+     });*/
 
   });
 
@@ -205,25 +208,44 @@ function initMap() {
       if (marker) {
         map.panTo(marker.getPosition());
       }
-    }, 3000);
+    }, 2000);
   });
 
   /*
-  When submit button is clicked
+  When 'go' button is clicked
+  Add a new database entry in MongoDB according to database schema
   */
   $('#submit').click(function (e) {
     e.preventDefault(); // prevent map from reloading
     var distance = $('#distance').val();
-    var location = $('#location').val();
+    var dbLatLng = currentLatLng;
+    console.log(dbLatLng);
     console.log(location);
     console.log(distance);
   });
 
+  /*
+  Get name of location from coordinates and put it in destination text box.
+  */
+  function lookupLocationName(geocoder, location) {
+    var latLng = {
+      lat: location.lat(),
+      lng: location.lng()
+    };
+    geocoder.geocode({
+      'location': latLng
+    }, function (results, status) {
+      if (status === 'OK') {
+        if (results[1]) {
+          $('#location').val(results[1].formatted_address);
+        }
+      } else {
+        $('#location').val(location);
+      }
+    });
+  }
 
 }
-
-//$(document).ready(function(e) {
-//});
 
 /*
 Parse weather JSON from Dark Sky API call
@@ -231,13 +253,13 @@ Parse weather JSON from Dark Sky API call
 var parseWeather = function (data) {
   //var summary = data.daily.summary;
   //$('#summary').text(summary);
-  for (var i=0; i<5; i++) { // fill weather
+  for (var i = 0; i < 5; i++) { // fill weather
     var temp = Math.round(data.daily.data[i].temperatureMin) + "°/" + Math.round(data.daily.data[i].temperatureMax) + "°";
     var forecast = data.daily.data[i].summary;
-    $('#day' + i +  ' .temp').empty();
-    $('#day' + i +  ' .temp').text(temp);
-    $('#day' + i +  ' .forecast').empty();
-    $('#day' + i +  ' .forecast').text(forecast);
+    $('#day' + i + ' .temp').empty();
+    $('#day' + i + ' .temp').text(temp);
+    $('#day' + i + ' .forecast').empty();
+    $('#day' + i + ' .forecast').text(forecast);
   }
 };
 
@@ -257,14 +279,8 @@ var fillDates = function () {
     "Saturday"
   ];
 
-  $('#day1date').text(days[date.getDay()] + " " + date.getMonth() + '/' + date.getDate());
-  date.setDate(date.getDate() + 1);
-  $('#day2date').text(days[date.getDay()] + " " + date.getMonth() + '/' + date.getDate());
-  date.setDate(date.getDate() + 1);
-  $('#day3date').text(days[date.getDay()] + " " + date.getMonth() + '/' + date.getDate());
-  date.setDate(date.getDate() + 1);
-  $('#day4date').text(days[date.getDay()] + " " + date.getMonth() + '/' + date.getDate());
-  date.setDate(date.getDate() + 1);
-  $('#day5date').text(days[date.getDay()] + " " + date.getMonth() + '/' + date.getDate());
-
+  for (var i = 0; i < 5; i++) {
+    $('#day' + i + 'date').text(days[date.getDay()] + " " + date.getMonth() + '/' + date.getDate());
+    date.setDate(date.getDate() + 1);
+  }
 };

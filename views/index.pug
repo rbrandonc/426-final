@@ -12,7 +12,7 @@ html
 				text Find a Destination! within  
 				input(type='number', name='distance', value='0', id='distance') 
 				text   miles of  
-				input(type='text', name='location', value='zip', id='location')
+				input(type='text', name='location', value='place', id='location')
 				text  
 			
 			input(type='submit', value='Go!', id='submit')
@@ -25,11 +25,11 @@ html
 			table#forecast
 				thead
 					tr
+						th.date#day0date(colspan="2").shadow
 						th.date#day1date(colspan="2").shadow
 						th.date#day2date(colspan="2").shadow
 						th.date#day3date(colspan="2").shadow
 						th.date#day4date(colspan="2").shadow
-						th.date#day5date(colspan="2").shadow
 				tbody
 					tr
 						td.day#day0

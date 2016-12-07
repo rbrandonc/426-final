@@ -101,10 +101,17 @@ input {
 	border-right: none;
 	border-bottom: solid black 1px;
 	text-align: center;
-	width: 50px;
 	color: #7BAFD4;
 	font-family: 'Ubuntu';
 	font-size: 16;
+}
+
+#distance {
+	width: 50px;
+}
+
+#location {
+	width: 300px;
 }
 
 #submit {
