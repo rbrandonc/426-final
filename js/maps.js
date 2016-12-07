@@ -4,7 +4,8 @@ function initMap() {
     lat: -25.363,
     lng: 131.044
   };
-  fillDates();
+  var date = new Date();
+  fillDates(date);
 
   // Create a map object and specify the DOM element for display.
   // Styles a map in night mode.
@@ -127,7 +128,7 @@ function initMap() {
       }]
     }]
   });
-  var geocoder = new google.maps.Geocoder;
+  var geocoder = new google.maps.Geocoder();
 
   /*
   Set initial location of map
@@ -173,17 +174,17 @@ function initMap() {
     apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + event.latLng.lat() + ',' + event.latLng.lng();
     console.log(apiURL);
     /*$.ajax({ // weather API call
-      url: apiURL,
-      dataType: 'jsonp' // TODO: if I ever feel like being a good programmer, change to CORS request
-     })
-     .done(function (data) {
-      console.log(data);
-      parseWeather(data);
-     })
-     .fail(function (xhr, textStatus, error) {
-      console.log(failed);
-      console.log(xhr.responseText);
-     });*/
+        url: apiURL,
+        dataType: 'jsonp' // TODO: if I ever feel like being a good programmer, change to CORS request
+      })
+      .done(function (data) {
+        console.log(data);
+        parseWeather(data);
+      })
+      .fail(function (xhr, textStatus, error) {
+        console.log(failed);
+        console.log(xhr.responseText);
+      });*/
 
   });
 
@@ -216,11 +217,7 @@ function initMap() {
   */
   $('#submit').click(function (e) {
     e.preventDefault(); // prevent map from reloading
-    var distance = $('#distance').val();
-    var dbLatLng = currentLatLng;
-    console.log(dbLatLng);
-    console.log(location);
-    console.log(distance);
+    postDestination(distance);
   });
 
   /*
@@ -244,6 +241,30 @@ function initMap() {
     });
   }
 
+  /*
+  Build JSON string to add location to database. 
+  */
+  function postDestination() {
+    var jsonData = {};
+
+    jsonData.createDate = (date.getMonth() + 1) + '/' + date.getDay() + '/' + date.getFullYear();
+    jsonData.lat = currentLatLng.lat();
+    jsonData.lng = currentLatLng.lng();
+    jsonData.locationName = $('#location').val();
+    jsonData.distance = $('#distance').val();
+    var days = ["day0", "day1", "day2", "day3", "day4"];
+    for (var i = 0; i < 5; i++) {
+      days[i] = {
+        "date": $('#day' + i + 'date').text(),
+        "weather": $('#day' + i + ' .forecast').text(),
+        "low": $('#day' + i + ' .temp').text().split("/")[0],
+        "high": $('#day' + i + ' .temp').text().split("/")[1]
+      };
+      jsonData['day' + i] = days[i];
+    }
+    console.log(jsonData);
+  }
+
 }
 
 /*
@@ -265,9 +286,7 @@ var parseWeather = function (data) {
 /*
 Fill dates table in index.pug
 */
-var fillDates = function () {
-  var date = new Date();
-
+var fillDates = function (date) {
   var days = [
     "Sunday",
     "Monday",
@@ -279,7 +298,7 @@ var fillDates = function () {
   ];
 
   for (var i = 0; i < 5; i++) {
-    $('#day' + i + 'date').text(days[date.getDay()] + " " + date.getMonth() + '/' + date.getDate());
+    $('#day' + i + 'date').text(days[date.getDay()] + " " + (date.getMonth() + 1) + '/' + date.getDate());
     date.setDate(date.getDate() + 1);
   }
 };
