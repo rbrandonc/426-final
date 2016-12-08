@@ -169,10 +169,29 @@ function initMap() {
   /*
   Move marker to where user clicks and make weather API call.
   */
+  var nearbyLocation;
   google.maps.event.addListener(map, 'click', function (event) {
     currentLatLng = event.latLng;
     placeMarker(currentLatLng, map);
     lookupLocationName(geocoder, currentLatLng);
+
+    apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + currentLatLng.lat() + ',' + currentLatLng.lng();
+    // console.log(apiURL);
+    $.ajax({ // weather API call
+        url: apiURL,
+        dataType: 'jsonp' // TODO: if I ever feel like being a good programmer, change to CORS request
+      })
+      .done(function (data) {
+        placeMarker({
+          lat: currentLatLng.lat(),
+          lng: currentLatLng.lng()
+        }, map);
+        parseWeather(data);
+        postDestination(currentLatLng.lat(), currentLatLng.lng());
+      })
+      .fail(function (xhr, textStatus, error) {
+        console.log(xhr.responseText);
+      });
   });
 
   map.addListener(map, 'dragend', function (event) {
@@ -220,7 +239,7 @@ function initMap() {
             lng: nearbyLocation.geometry.location.lng()
           }, map);
           parseWeather(data);
-          postDestination(nearbyLocation);
+          postDestination(nearbyLocation.geometry.location.lat(), nearbyLocation.geometry.location.lng())
         })
         .fail(function (xhr, textStatus, error) {
           console.log(xhr.responseText);
@@ -231,7 +250,7 @@ function initMap() {
   /*
   Build JSON string to add location to database and send POST request to add to database.
   */
-  function postDestination(nearbyLocation) {
+  function postDestination(lat, lng) {
     var jsonData = {};
 
     var date = new Date();
@@ -240,9 +259,9 @@ function initMap() {
     jsonData.longitude = currentLatLng.lng();
     jsonData.locationName = $('#location').val();
     jsonData.distance = $('#distance').val();
-    jsonData.nearbyLocationLatitude = nearbyLocation.geometry.location.lat();
-    jsonData.nearbyLocationLongitude = nearbyLocation.geometry.location.lng();
-    jsonData.nearbyLocationName = nearbyLocation.vicinity;
+    jsonData.nearbyLocationLatitude = lat; //changed these to work with click and go button
+    jsonData.nearbyLocationLongitude = lng;
+    //jsonData.nearbyLocationName = nearbyLocation.vicinity; //not sure what you were using this for so i commented it out
     var days = ["day0", "day1", "day2", "day3", "day4"];
     for (var i = 0; i < 5; i++) {
       days[i] = {
@@ -322,13 +341,19 @@ Parse weather JSON from Dark Sky API call
 var parseWeather = function (data) {
   //var summary = data.daily.summary;
   //$('#summary').text(summary);
+
   for (var i = 0; i < 5; i++) { // fill weather
     var temp = Math.round(data.daily.data[i].temperatureMin) + "°/" + Math.round(data.daily.data[i].temperatureMax) + "°";
     var forecast = data.daily.data[i].summary;
+
     $('#day' + i + ' .temp').empty();
     $('#day' + i + ' .temp').text(temp);
+
     $('#day' + i + ' .forecast').empty();
     $('#day' + i + ' .forecast').text(forecast);
+
+    //$('#day' + i + ' .forecast').empty();
+    $('#day' + i + 'icon').html("<img src=" + "/images/Weather/" + data.daily.data[i].icon + ".png" + " alt=" +" weathericon" + "height = " + "50" + " width= " + " 50" + ">");
   }
 };
 
