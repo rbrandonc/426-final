@@ -209,54 +209,33 @@ function initMap() {
   var nearbyLocation;
   $('#submit').click(function (e) {
     e.preventDefault(); // prevent map from reloading
-    setTimeout(findNearbyLocation(placesService, currentLatLng), 2000);
-    console.log('TEST' + nearbyLocation);
-    $('#destination').removeClass('hidden');
-    $('#nearbyLocation').html('&nbsp;&nbsp;&nbsp;' + nearbyLocation.vicinity + '&nbsp;&nbsp;&nbsp;');
-
-    //apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + event.latLng.lat() + ',' + event.latLng.lng();
-    //console.log(apiURL);
-    /*$.ajax({ // weather API call
-        url: apiURL,
-        dataType: 'jsonp' // TODO: if I ever feel like being a good programmer, change to CORS request
-      })
-      .done(function (data) {
-        console.log(data);
-        parseWeather(data);
-      })
-      .fail(function (xhr, textStatus, error) {
-        console.log(failed);
-        console.log(xhr.responseText);
-      });*/
-    // postDestination();
-
-  });
-
-  /*
-  Get name of location from coordinates and put it in destination text box.
-  */
-  function lookupLocationName(geocoder, location) {
-    var latLng = {
-      lat: location.lat(),
-      lng: location.lng()
-    };
-    geocoder.geocode({
-      'location': latLng
-    }, function (results, status) {
-      if (status === 'OK') {
-        if (results[1]) {
-          $('#location').val(results[1].formatted_address);
-        }
-      } else {
-        $('#location').val(location); // just fill with latitude/longitude coordinates
+    findNearbyLocation(placesService, currentLatLng, function (chosenNearbyLocation) {
+      if (chosenNearbyLocation) {
+        nearbyLocation = chosenNearbyLocation;
       }
+      $('#destination').removeClass('hidden');
+      $('#nearbyLocation').html('&nbsp;&nbsp;&nbsp;' + nearbyLocation.vicinity + '&nbsp;&nbsp;&nbsp;');
+
+      apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + nearbyLocation.geometry.location.lat() + ',' + nearbyLocation.geometry.location.lng();
+      console.log(apiURL);
+      $.ajax({ // weather API call
+          url: apiURL,
+          dataType: 'jsonp' // TODO: if I ever feel like being a good programmer, change to CORS request
+        })
+        .done(function (data) {
+          parseWeather(data);
+          postDestination(nearbyLocation);
+        })
+        .fail(function (xhr, textStatus, error) {
+          console.log(xhr.responseText);
+        });
     });
-  }
+  });
 
   /*
   Build JSON string to add location to database. 
   */
-  function postDestination() {
+  function postDestination(nearbyLocation) {
     var jsonData = {};
 
     var date = new Date();
@@ -264,8 +243,9 @@ function initMap() {
     jsonData.latitude = currentLatLng.lat();
     jsonData.longitude = currentLatLng.lng();
     jsonData.locationName = $('#location').val();
-    jsonData.nearbyLocationName = 'temp';
-    jsonData.nearbyLocationLatitude = 'temp';
+    jsonData.nearbyLocationName = nearbyLocation.vicinity;
+    jsonData.nearbyLocationLatitude = nearbyLocation.geometry.location.lat();
+    jsonData.nearbyLocationLongitude = nearbyLocation.geometry.location.lng();
     jsonData.distance = $('#distance').val();
     var days = ["day0", "day1", "day2", "day3", "day4"];
     for (var i = 0; i < 5; i++) {
@@ -280,34 +260,50 @@ function initMap() {
     console.log(jsonData);
   }
 
-  /*
+}
+
+/*
+  Get name of location from coordinates and put it in destination text box.
+  */
+function lookupLocationName(geocoder, location) {
+  var latLng = {
+    lat: location.lat(),
+    lng: location.lng()
+  };
+  geocoder.geocode({
+    'location': latLng
+  }, function (results, status) {
+    if (status === 'OK') {
+      if (results[1]) {
+        $('#location').val(results[1].formatted_address);
+      }
+    } else {
+      $('#location').val(location); // just fill with latitude/longitude coordinates
+    }
+  });
+}
+
+/*
   Find nearby location when user clicks 'go'
   */
-  var findNearbyLocation = function (placesService, coordinates) {
-    distance = $('#distance').val() * 1609.344; // convert to meters
-    var request = {
-      location: {
-        lat: coordinates.lat(),
-        lng: coordinates.lng()
-      },
-      radius: distance,
-    };
-    // var chosenNearbyLocation;
-    placesService.nearbySearch(request, function (results, status) {
-      if (status == google.maps.places.PlacesServiceStatus.OK) {
-        //console.log(results.length);
-        //console.log(results[results.length - 1]);
-        //console.log(Math.floor((Math.random(results.length) * results.length) + 1));
-        nearbyLocation = results[results.length - 1];
-        console.log(nearbyLocation);
-        //return chosenNearbyLocation;
-      } else {
-        return;
-      }
-    });
+var findNearbyLocation = function (placesService, coordinates, callbackFn) {
+  distance = $('#distance').val() * 1609.344; // convert to meters
+  var request = {
+    location: {
+      lat: coordinates.lat(),
+      lng: coordinates.lng()
+    },
+    radius: distance, // sadly, max allowed radius is 50,000 meters which is ~30 miles
   };
-
-}
+  // var chosenNearbyLocation;
+  placesService.nearbySearch(request, function (results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+      callbackFn(results[results.length - 1]);
+    } else {
+      callbackFn(null);
+    }
+  });
+};
 
 /*
 Parse weather JSON from Dark Sky API call

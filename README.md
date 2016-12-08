@@ -2,4 +2,8 @@
 
 Trip Planner
 
-Built with MongoDB, Express.js, Angular.js, Node.js
+Built with Node.js, Express.js, MongoDB, Angular 2
+APIs used - Google Maps, Dark Sky weather
+
+API Usage
+* /api/destinations - see all saved destinations 
