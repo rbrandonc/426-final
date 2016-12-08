@@ -5,9 +5,12 @@ Database Schema
 	"dateCreated": <String>,
 	"latitude": <float>,
 	"longitude": <float>,
-	"distance": <int>,
 	"locationName": <string>,
-	"day 0": {
+	"distance": <int>,
+	"nearbyLocationLatitude": <float>,
+	"nearbyLocationLongitude": <float>,
+	"nearbyLocationName": <string>,
+	"day 0": { // nearby location weather data
 		"date": <string>,
 		"weather": <string>,
 		"low": <string>,
@@ -44,7 +47,7 @@ REST Description
 - /destinations
 	- GET: all destinations
 		- Request is any GET to the url
-		- Response is all of the json detination entries
+		- Response is all of the json destination entries
 - /destination
   - POST: create a new destination
     - Request is a POST containing a creation date, name, location, and description

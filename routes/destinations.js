@@ -28,7 +28,7 @@ router.get('/destination/:id', function (req, res) {
 // save new destination
 router.post('/destination', function (req, res) {
   var destination = req.body;
-  if (!destination.date || !destination.location) {
+  if (!destination.dateCreated || !destination.locationName) {
     res.status(400);
     res.json({
       "error": "Bad data"
@@ -48,10 +48,10 @@ router.put('/destination/:id', function (req, res, next) {
   var destination = req.body;
   var updatedDestination = {};
 
-  if (destination.location) {
+  if (destination.locationName) {
     updatedDestination.location = destination.location;
   }
-  if (destination.createDate) {
+  if (destination.dateCreated) {
     updatedDestination.createDate = destination.createDate;
   }
 

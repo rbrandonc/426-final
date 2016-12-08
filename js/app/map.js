@@ -154,6 +154,9 @@ function initMap() {
   function placeMarker(pos, map) {
     if (marker) {
       marker.setPosition(pos);
+      window.setTimeout(function () {
+        map.panTo(marker.getPosition());
+      }, 500);
     } else {
       marker = new google.maps.Marker({
         position: pos,
@@ -190,19 +193,6 @@ function initMap() {
   }
 
   /*
-  Change center of map when marker is clicked on.
-  */
-  /*map.addListener('center_changed', function () {
-    // 3 seconds after the center of the map has changed, pan back to the
-    // marker.
-    window.setTimeout(function () {
-      if (marker) {
-        map.panTo(marker.getPosition());
-      }
-    }, 2000);
-  });*/
-
-  /*
   When 'go' button is clicked
   Add a new database entry in MongoDB according to database schema
   */
@@ -212,17 +202,23 @@ function initMap() {
     findNearbyLocation(placesService, currentLatLng, function (chosenNearbyLocation) {
       if (chosenNearbyLocation) {
         nearbyLocation = chosenNearbyLocation;
+      } else {
+        console.log('failed');
       }
       $('#destination').removeClass('hidden');
       $('#nearbyLocation').html('&nbsp;&nbsp;&nbsp;' + nearbyLocation.vicinity + '&nbsp;&nbsp;&nbsp;');
 
       apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + nearbyLocation.geometry.location.lat() + ',' + nearbyLocation.geometry.location.lng();
-      console.log(apiURL);
+      // console.log(apiURL);
       $.ajax({ // weather API call
           url: apiURL,
           dataType: 'jsonp' // TODO: if I ever feel like being a good programmer, change to CORS request
         })
         .done(function (data) {
+          placeMarker({
+            lat: nearbyLocation.geometry.location.lat(),
+            lng: nearbyLocation.geometry.location.lng()
+          }, map);
           parseWeather(data);
           postDestination(nearbyLocation);
         })
@@ -233,7 +229,7 @@ function initMap() {
   });
 
   /*
-  Build JSON string to add location to database. 
+  Build JSON string to add location to database and send POST request to add to database.
   */
   function postDestination(nearbyLocation) {
     var jsonData = {};
@@ -243,10 +239,10 @@ function initMap() {
     jsonData.latitude = currentLatLng.lat();
     jsonData.longitude = currentLatLng.lng();
     jsonData.locationName = $('#location').val();
-    jsonData.nearbyLocationName = nearbyLocation.vicinity;
+    jsonData.distance = $('#distance').val();
     jsonData.nearbyLocationLatitude = nearbyLocation.geometry.location.lat();
     jsonData.nearbyLocationLongitude = nearbyLocation.geometry.location.lng();
-    jsonData.distance = $('#distance').val();
+    jsonData.nearbyLocationName = nearbyLocation.vicinity;
     var days = ["day0", "day1", "day2", "day3", "day4"];
     for (var i = 0; i < 5; i++) {
       days[i] = {
@@ -257,7 +253,22 @@ function initMap() {
       };
       jsonData['day' + i] = days[i];
     }
-    console.log(jsonData);
+    // console.log(jsonData);
+
+    $.ajax({
+        type: 'POST',
+        url: 'https://localhost:1337/api/destination',
+        data: jsonData,
+        dataType: 'json'
+      })
+      .done(function (data) {
+        console.log('IT WORKED OMG');
+        // console.log(data);
+      })
+      .fail(function (xhr, textStatus, error) {
+        console.log(xhr.responseText);
+      });
+
   }
 
 }
