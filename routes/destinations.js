@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
 var db = mongojs('mongodb://audrey:audrey@ds127958.mlab.com:27958/tripplanner', ['destinations']);
+// https://mlab.com/databases/tripplanner/collections/destinations
 
 // get all destinations
 router.get('/destinations', function (req, res, next) {

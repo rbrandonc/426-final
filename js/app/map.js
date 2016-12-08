@@ -169,7 +169,6 @@ function initMap() {
   /*
   Move marker to where user clicks and make weather API call.
   */
-  var nearbyLocation;
   google.maps.event.addListener(map, 'click', function (event) {
     currentLatLng = event.latLng;
     placeMarker(currentLatLng, map);
@@ -187,7 +186,6 @@ function initMap() {
           lng: currentLatLng.lng()
         }, map);
         parseWeather(data);
-        postDestination(currentLatLng.lat(), currentLatLng.lng());
       })
       .fail(function (xhr, textStatus, error) {
         console.log(xhr.responseText);
@@ -219,14 +217,13 @@ function initMap() {
   $('#submit').click(function (e) {
     e.preventDefault(); // prevent map from reloading
 
-    var place = geocoder.geocode($("#destination").val());
-    
+    var place = geocoder.geocode($("#location").val());
 
-    if(place){
+    if (place) {
       var result = place.results[1];
 
       var latlng = {
-        lat: result.geometry.location.lat, 
+        lat: result.geometry.location.lat,
         lng: result.geometry.location.lng
       };
     }
@@ -268,13 +265,13 @@ function initMap() {
 
     var date = new Date();
     jsonData.dateCreated = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
-    jsonData.latitude = currentLatLng.lat();
-    jsonData.longitude = currentLatLng.lng();
-    jsonData.locationName = $('#location').val();
+    jsonData.startingLatitude = currentLatLng.lat();
+    jsonData.startingLongitude = currentLatLng.lng();
+    jsonData.startingLocationName = $('#location').val();
     jsonData.distance = $('#distance').val();
+    jsonData.nearbyLocationName = $('#destination').val();
     jsonData.nearbyLocationLatitude = lat; //changed these to work with click and go button
     jsonData.nearbyLocationLongitude = lng;
-    //jsonData.nearbyLocationName = nearbyLocation.vicinity; //not sure what you were using this for so i commented it out
     var days = ["day0", "day1", "day2", "day3", "day4"];
     for (var i = 0; i < 5; i++) {
       days[i] = {
@@ -300,14 +297,13 @@ function initMap() {
       .fail(function (xhr, textStatus, error) {
         console.log(xhr.responseText);
       });
-
   }
 
 }
 
 /*
-  Get name of location from coordinates and put it in destination text box.
-  */
+Get name of location from coordinates and put it in destination text box.
+*/
 function lookupLocationName(geocoder, location) {
   var latLng = {
     lat: location.lat(),
@@ -366,7 +362,7 @@ var parseWeather = function (data) {
     $('#day' + i + ' .forecast').text(forecast);
 
     //$('#day' + i + ' .forecast').empty();
-    $('#day' + i + 'icon').html("<img src=" + "/images/Weather/" + data.daily.data[i].icon + ".png" + " alt=" +" weathericon" + "height = " + "50" + " width= " + " 50" + ">");
+    $('#day' + i + 'icon').html("<img src=" + "/images/Weather/" + data.daily.data[i].icon + ".png" + " alt=" + " weathericon" + "height = " + "50" + " width= " + " 50" + ">");
   }
 };
 
