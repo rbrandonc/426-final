@@ -217,7 +217,7 @@ function initMap() {
   $('#submit').click(function (e) {
     e.preventDefault(); // prevent map from reloading
 
-    var place = geocoder.geocode($("#location").val());
+    /*var place = geocoder.geocode($("#location").val());
 
     if (place) {
       var result = place.results[1];
@@ -226,9 +226,9 @@ function initMap() {
         lat: result.geometry.location.lat,
         lng: result.geometry.location.lng
       };
-    }
+    }*/
 
-    findNearbyLocation(placesService, latlng, function (chosenNearbyLocation) {
+    findNearbyLocation(placesService, currentLatLng, function (chosenNearbyLocation) {
       if (chosenNearbyLocation) {
         nearbyLocation = chosenNearbyLocation;
       } else {
@@ -249,7 +249,7 @@ function initMap() {
             lng: nearbyLocation.geometry.location.lng()
           }, map);
           parseWeather(data);
-          postDestination(nearbyLocation.geometry.location.lat(), nearbyLocation.geometry.location.lng())
+          postDestination(nearbyLocation.geometry.location.lat(), nearbyLocation.geometry.location.lng(), nearbyLocation.vicinity);
         })
         .fail(function (xhr, textStatus, error) {
           console.log(xhr.responseText);
@@ -260,7 +260,7 @@ function initMap() {
   /*
   Build JSON string to add location to database and send POST request to add to database.
   */
-  function postDestination(lat, lng) {
+  function postDestination(lat, lng, destination) {
     var jsonData = {};
 
     var date = new Date();
@@ -269,7 +269,7 @@ function initMap() {
     jsonData.startingLongitude = currentLatLng.lng();
     jsonData.startingLocationName = $('#location').val();
     jsonData.distance = $('#distance').val();
-    jsonData.nearbyLocationName = $('#destination').val();
+    jsonData.nearbyLocationName = destination;
     jsonData.nearbyLocationLatitude = lat; //changed these to work with click and go button
     jsonData.nearbyLocationLongitude = lng;
     var days = ["day0", "day1", "day2", "day3", "day4"];
@@ -282,7 +282,7 @@ function initMap() {
       };
       jsonData['day' + i] = days[i];
     }
-    // console.log(jsonData);
+    console.log(jsonData);
 
     $.ajax({
         type: 'POST',
