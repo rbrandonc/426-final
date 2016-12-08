@@ -218,7 +218,20 @@ function initMap() {
   var nearbyLocation;
   $('#submit').click(function (e) {
     e.preventDefault(); // prevent map from reloading
-    findNearbyLocation(placesService, currentLatLng, function (chosenNearbyLocation) {
+
+    var place = geocoder.geocode($("#destination").val());
+    
+
+    if(place){
+      var result = place.results[1];
+
+      var latlng = {
+        lat: result.geometry.location.lat, 
+        lng: result.geometry.location.lng
+      };
+    }
+
+    findNearbyLocation(placesService, latlng, function (chosenNearbyLocation) {
       if (chosenNearbyLocation) {
         nearbyLocation = chosenNearbyLocation;
       } else {
