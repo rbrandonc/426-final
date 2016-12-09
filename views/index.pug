@@ -3,7 +3,10 @@ html
     title=title
     link(href='//fonts.googleapis.com/css?family=Ubuntu', rel='stylesheet', type='text/css')
     link(rel='stylesheet', href='/css/style.css')
-    
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
+    script(src="js/app/map.js")
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPIPOe68My_IpNeVYYew5zI68uEXNK3k&callback=initMap&libraries=places", async, defer)
+
   body.flexcontainer
     div#top
       div#logo
@@ -78,6 +81,4 @@ html
               tbody#placesBody
         
     footer
-    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")
-    script(src="js/app/map.js")
-    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpPIPOe68My_IpNeVYYew5zI68uEXNK3k&callback=initMap&libraries=places", async, defer)
+    

@@ -1,3 +1,52 @@
+var UID;
+
+//Generate and set a UID for every user via cookies
+function initialize(){
+
+  var uid = getUID();
+
+  if(!uid){
+
+    console.log("generating UID");
+
+    var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKMNOPQRSTUVWXYZ1234567890";
+    
+    var uid = "";
+    
+    for(var i = 0; i < 30; i++){
+      var rand = Math.floor(Math.random()*60);
+      uid = uid + chars[rand]
+    }
+    
+    var d = new Date();
+    d.setTime(d.getTime() + 31536000000);
+    document.cookie = "UID=" + uid + ";" + "expires=" + d.toGMTString() + ";path=/";
+
+    UID = uid;
+
+  }
+  else{
+    UID = uid;
+  }
+}
+
+//parses UID from list of cookies
+function getUID(){
+      var name = "UID=";
+      var ca = document.cookie.split(';');
+      for(var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+              c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+          }
+      }
+
+      return "";
+}
+
 function initMap() {
   // Setup stuff
   var myLatLng = { // Chapel Hill
@@ -277,6 +326,7 @@ function initMap() {
     var jsonData = {};
 
     var date = new Date();
+    jsonData.uid = UID;
     jsonData.dateCreated = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
     jsonData.startingLatitude = currentLatLng.lat();
     jsonData.startingLongitude = currentLatLng.lng();
@@ -417,15 +467,26 @@ function openTab(event, tabName) {
 
 var places;
 
+//Populates the my places tab
 function loadPlaces() {
+
+  var jsonData = {};
+
+  jsonData.uid = UID;
+
+  //console.log(jsonData.uid);
+
   var placesTable = $('#placesBody');
+
   $.ajax({
       type: 'GET',
       url: 'https://localhost:1337/api/destinations',
+      data: jsonData,
       dataType: 'json'
     })
     .done(function (data) {
       places = data;
+      console.log(places);
       placesTable.empty();
       var tr = $('<tr>');
       for (var i = 0; i < places.length; i++) {
@@ -446,10 +507,10 @@ function loadPlaces() {
 
 $(document).ready(function () {
   document.getElementById('weatherTab').click();
+  initialize();
   loadPlaces();
-});
 
-$('#placesBody').click(function (event) {
+  $('#placesBody').click(function (event) {
   var target = event.target.innerHTML.split('<')[0];
   var result;
   if (target.length > 0) { // must have clicked on destination
@@ -473,11 +534,14 @@ $('#placesBody').click(function (event) {
     }
   }
 });
+});
+
+
 
 function removeDestination(locationID) {
   $.ajax({
       type: 'DELETE',
-      url: 'https://localhost:1337/api/destination/' + locationID,
+      url: 'https://localhost:1337/api/destination/' + locationID
     })
     .done(function () {
       console.log('Destination deleted');
@@ -489,6 +553,7 @@ function removeDestination(locationID) {
 }
 
 function restoreDestination(destination) {
+  console.log(destination);
   $('#location').val(destination.nearbyLocationName);
   $('#destination').addClass('hidden');
   moveMarker({
