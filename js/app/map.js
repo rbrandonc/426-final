@@ -481,6 +481,9 @@ function loadPlaces() {
       dataType: 'json'
     })
     .done(function (data) {
+      if (data.length === 0) {
+        placesTable.text("You don't have any destinations saved.");
+      }
       places = data;
       //console.log(places);
       placesTable.empty();
