@@ -14,31 +14,36 @@ Database Schema
 		"date": <string>,
 		"weather": <string>,
 		"low": <string>,
-		"high": <string>
+		"high": <string>,
+		"icon": <string>
 	},
 	"day 1": {
 		"date": <string>,
 		"weather": <string>,
 		"low": <string>,
-    "high": <string>
+    "high": <string>,
+		"icon": <string>
 	},
 	"day 2": {
 		"date": <string>,
 		"weather": <string>,
 		"low": <string>,
-    "high": <string>
+    "high": <string>,
+		"icon": <string>
 	},
 	"day 3": {
 		"date": <string>,
 		"weather": <string>,
 		"low": <string>,
-    "high": <string>
+    "high": <string>,
+		"icon": <string>
 	},
-	"day 5": {
+	"day 4": {
 		"date": <string>,
 		"weather": <string>,
 		"low": <string>,
-    "high": <string>
+    "high": <string>,
+		"icon": <string>
 	},
 }
 

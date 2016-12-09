@@ -166,12 +166,29 @@ function initMap() {
     }
   }
 
+  this.moveMarker = function (pos) {
+    currentLatLng = pos;
+    if (marker) {
+      marker.setPosition(pos);
+      window.setTimeout(function () {
+        map.panTo(marker.getPosition());
+      }, 500);
+    } else {
+      marker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        title: 'Vacation destination'
+      });
+    }
+  };
+
   /*
   Move marker to where user clicks and make weather API call.
   */
   google.maps.event.addListener(map, 'click', function (event) {
     currentLatLng = event.latLng;
     placeMarker(currentLatLng, map);
+    $('#destination').addClass('hidden');
     lookupLocationName(geocoder, currentLatLng);
 
     apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + currentLatLng.lat() + ',' + currentLatLng.lng();
@@ -274,11 +291,12 @@ function initMap() {
         "date": $('#day' + i + 'date').text(),
         "weather": $('#day' + i + ' .forecast').text(),
         "high": $('#day' + i + ' .temp').text().split("/")[0],
-        "low": $('#day' + i + ' .temp').text().split("/")[1]
+        "low": $('#day' + i + ' .temp').text().split("/")[1],
+        "icon": $('#day' + i + 'iconimg').attr("alt")
       };
       jsonData['day' + i] = days[i];
     }
-    console.log(jsonData);
+    // console.log(JSON.stringify(jsonData));
 
     $.ajax({
         type: 'POST',
@@ -345,9 +363,6 @@ var findNearbyLocation = function (placesService, coordinates, callbackFn) {
 Parse weather JSON from Dark Sky API call
 */
 var parseWeather = function (data) {
-  //var summary = data.daily.summary;
-  //$('#summary').text(summary);
-
   for (var i = 0; i < 5; i++) { // fill weather
     var temp = Math.round(data.daily.data[i].temperatureMin) + "°/" + Math.round(data.daily.data[i].temperatureMax) + "°";
     var forecast = data.daily.data[i].summary;
@@ -356,7 +371,7 @@ var parseWeather = function (data) {
     $('#day' + i + ' .temp').text(temp);
     $('#day' + i + ' .forecast').empty();
     $('#day' + i + ' .forecast').text(forecast);
-    $('#day' + i + 'icon').html("<img src=" + "/images/Weather/" + data.daily.data[i].icon + ".png" + " alt=" + " weathericon" + "height = " + "50" + " width= " + " 50" + ">");
+    $('#day' + i + 'icon').html("<img src=" + "/images/Weather/" + data.daily.data[i].icon + ".png" + " alt=" + data.daily.data[i].icon + " height = " + "50" + " width= " + " 50 id=day" + i + "iconimg >");
   }
 };
 
@@ -368,7 +383,7 @@ var fillDates = function () {
   var days = [
     "Sunday",
     "Monday",
-    "Tueday",
+    "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
@@ -474,5 +489,21 @@ function removeDestination(locationID) {
 }
 
 function restoreDestination(destination) {
-  console.log('restoring...');
+  $('#location').val(destination.nearbyLocationName);
+  $('#destination').addClass('hidden');
+  moveMarker({
+    lat: parseFloat(destination.nearbyLocationLatitude),
+    lng: parseFloat(destination.nearbyLocationLongitude)
+  });
+  for (var i = 0; i < 5; i++) { // fill weather
+    var temp = destination['day' + i + '[high]'] + "/" + destination['day' + i + '[low]'] + "";
+    var forecast = destination['day' + i + '[weather]'];
+
+    $('#day' + i + ' .temp').empty();
+    $('#day' + i + ' .temp').text(temp);
+    $('#day' + i + ' .forecast').empty();
+    $('#day' + i + ' .forecast').text(forecast);
+    $('#day' + i + 'icon').html("<img src=" + "/images/Weather/" + destination['day' + i + '[icon]'] + ".png" + " alt=" + destination['day' + i + '[icon]'] + " height = " + "50" + " width= " + " 50 id=day" + i + "iconimg>");
+  }
+
 }

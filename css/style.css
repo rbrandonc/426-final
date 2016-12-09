@@ -255,11 +255,16 @@ ul.tab li a:focus,
 	padding: 10px;
 	height: 184px;
 	width: 100%;
+	overflow: auto;
 }
 
 #placesTable td {
 	padding: 10px;
 	width: 12.5%;
+}
+
+#placesTable {
+	overflow: auto;
 }
 
 #placesTable tbody td:hover {
