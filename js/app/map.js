@@ -287,7 +287,7 @@ function initMap() {
         dataType: 'json'
       })
       .done(function (data) {
-        console.log('IT WORKED OMG');
+        console.log('Destination added to database.');
         // console.log(data);
       })
       .fail(function (xhr, textStatus, error) {
@@ -417,7 +417,7 @@ function loadPlaces() {
       for (var i = 0; i < rows; i++) {
         var tr = $('<tr>');
         for (var j = 0; j < cols; j++) {
-          $('<td>' + places[placeInDataArr].nearbyLocationName + '</td>').appendTo(tr);
+          $('<td>' + places[placeInDataArr].nearbyLocationName + '<input type="button" style="float: right;" class="removeButton" value="x" id="' + places[placeInDataArr].nearbyLocationName + '"/>' + '</td>').appendTo(tr);
           placeInDataArr++; // this throws errors if not perfect number but oh well it keeps going
         }
         tr.appendTo(placesTable);
@@ -435,15 +435,44 @@ $(document).ready(function () {
 });
 
 $('#placesBody').click(function (event) {
-  var target = event.target.innerHTML;
-  var result = $.grep(places, function (e) {
-    return e.nearbyLocationName == target;
-  });
-  if (result.length === 0) {
-    // not found
-  } else if (result.length === 1) {
-    console.log(result);
-  } else {
-    // multiple items found
+  var target = event.target.innerHTML.split('<')[0];
+  var result;
+  if (target.length > 0) { // must have clicked on destination
+    result = $.grep(places, function (e) {
+      return e.nearbyLocationName == target;
+    });
+    if (result.length === 0) {
+      // not found
+    } else {
+      restoreDestination(result[0]);
+    }
+  } else { // must have clicked delete button
+    result = $.grep(places, function (e) {
+      return e.nearbyLocationName == event.target.id;
+    });
+    if (result.length === 0) {
+      // not found
+    } else {
+      var id = result[0]._id;
+      removeDestination(id);
+    }
   }
 });
+
+function removeDestination(locationID) {
+  $.ajax({
+      type: 'DELETE',
+      url: 'https://localhost:1337/api/destination/' + locationID,
+    })
+    .done(function () {
+      console.log('Destination deleted');
+      loadPlaces();
+    })
+    .fail(function (xhr, textStatus, error) {
+      console.log(xhr.responseText);
+    });
+}
+
+function restoreDestination(destination) {
+  console.log('restoring...');
+}

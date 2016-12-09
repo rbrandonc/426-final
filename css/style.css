@@ -262,5 +262,16 @@ ul.tab li a:focus,
 
 #placesTable tbody td:hover {
 	padding: 10px;
-	background-color: rgba(221, 221, 221, .9);
+	background-color: rgba(221, 221, 221, .8);
+}
+
+.removeButton {
+	border: none;
+	background: none;
+}
+
+.removeButton:hover {
+	border: none;
+	background: none;
+	background-color: #ccc;
 }
