@@ -407,8 +407,6 @@ function loadPlaces() {
       dataType: 'json'
     })
     .done(function (data) {
-      console.log(data);
-      // console.log(data[0].nearbyLocationName);
       var placesTable = $('#placesBody');
       placesTable.empty();
       for (var i = 0; i < data.length; i++) {
@@ -419,8 +417,6 @@ function loadPlaces() {
       $('placesTable').text("You don't have any destinations saved.");
       console.log(xhr.responseText);
     });
-
-  console.log('loading/.');
 }
 
 $(document).ready(function () {
