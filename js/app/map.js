@@ -476,7 +476,7 @@ function loadPlaces() {
 
   $.ajax({
       type: 'GET',
-      url: 'https://localhost:1337/api/destinations',
+      url: 'https://rbrandonc.com:1337/api/destinations',
       data: jsonData,
       dataType: 'json'
     })
