@@ -288,6 +288,7 @@ function initMap() {
       })
       .done(function (data) {
         console.log('Destination added to database.');
+        loadPlaces();
         // console.log(data);
       })
       .fail(function (xhr, textStatus, error) {
@@ -411,16 +412,15 @@ function loadPlaces() {
     .done(function (data) {
       places = data;
       placesTable.empty();
-      var rows = 4;
-      var cols = Math.ceil(data.length / 4);
-      var placeInDataArr = 0;
-      for (var i = 0; i < rows; i++) {
-        var tr = $('<tr>');
-        for (var j = 0; j < cols; j++) {
-          $('<td>' + places[placeInDataArr].nearbyLocationName + '<input type="button" style="float: right;" class="removeButton" value="x" id="' + places[placeInDataArr].nearbyLocationName + '"/>' + '</td>').appendTo(tr);
-          placeInDataArr++; // this throws errors if not perfect number but oh well it keeps going
+      var tr = $('<tr>');
+      for (var i = 0; i < places.length; i++) {
+        if ((i !== 0 && i % 6 === 0) || i === places.length - 1) {
+          $('<td>' + places[i].nearbyLocationName + '<input type="button" style="float: right;" class="removeButton" value="x" id="' + places[i].nearbyLocationName + '"/>' + '</td>').appendTo(tr);
+          tr.appendTo(placesTable);
+          tr = $('<tr>');
+        } else {
+          $('<td>' + places[i].nearbyLocationName + '<input type="button" style="float: right;" class="removeButton" value="x" id="' + places[i].nearbyLocationName + '"/>' + '</td>').appendTo(tr);
         }
-        tr.appendTo(placesTable);
       }
     })
     .fail(function (xhr, textStatus, error) {

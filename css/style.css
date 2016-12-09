@@ -254,10 +254,12 @@ ul.tab li a:focus,
 #places {
 	padding: 10px;
 	height: 184px;
+	width: 100%;
 }
 
 #placesTable td {
 	padding: 10px;
+	width: 12.5%;
 }
 
 #placesTable tbody td:hover {
