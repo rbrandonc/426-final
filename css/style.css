@@ -181,7 +181,9 @@ th {
 	text-decoration: underline;
 }
 
-.icon {}
+.icon {
+
+}
 
 ul.tab {
 	/* Style the list */
@@ -189,8 +191,22 @@ ul.tab {
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	border: 1px solid #ccc;
+	
 	background-color: #f1f1f1;
+
+	width: 100%;
+	background-color: #7BAFD4;
+	color: #000;
+	text-align: center;
+	/*box-shadow: inset 0px 0px 10px -2px black;*/
+	box-shadow: 0px 0px 10px 0px black;
+	height: 20px;
+	vertical-align: center;
+	z-index: 0;
+	padding: 0;
+	margin: 0;
+	vertical-align: center;
+	text-align: center;
 }
 
 ul.tab li {
@@ -223,7 +239,18 @@ ul.tab li a:focus,
 .tabcontent {
 	/* Style the tab content */
 	display: none;
-	padding: 5px 5px;
 	border: 1px solid #ccc;
 	border-top: none;
+	margin: 0;
+	padding: 0;
+}
+
+#bottom{
+	margin: 0;
+	padding: 0;
+}
+
+#tabs{
+	margin: 0;
+	padding: 0;
 }
