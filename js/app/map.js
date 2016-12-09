@@ -1,50 +1,46 @@
 var UID;
 
 //Generate and set a UID for every user via cookies
-function initialize(){
+function initialize() {
 
   var uid = getUID();
 
-  if(!uid){
-
-    console.log("generating UID");
-
+  if (!uid) {
+    //console.log("generating UID");
     var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKMNOPQRSTUVWXYZ1234567890";
-    
     var uid = "";
-    
-    for(var i = 0; i < 30; i++){
-      var rand = Math.floor(Math.random()*60);
+
+    for (var i = 0; i < 30; i++) {
+      var rand = Math.floor(Math.random() * 60);
       uid = uid + chars[rand]
     }
-    
+
     var d = new Date();
     d.setTime(d.getTime() + 31536000000);
     document.cookie = "UID=" + uid + ";" + "expires=" + d.toGMTString() + ";path=/";
 
     UID = uid;
 
-  }
-  else{
+  } else {
     UID = uid;
   }
 }
 
 //parses UID from list of cookies
-function getUID(){
-      var name = "UID=";
-      var ca = document.cookie.split(';');
-      for(var i = 0; i < ca.length; i++) {
-          var c = ca[i];
-          while (c.charAt(0) == ' ') {
-              c = c.substring(1);
-          }
-          if (c.indexOf(name) == 0) {
-              return c.substring(name.length, c.length);
-          }
-      }
+function getUID() {
+  var name = "UID=";
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
 
-      return "";
+  return "";
 }
 
 function initMap() {
@@ -350,7 +346,7 @@ function initMap() {
 
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:1337/api/destination',
+        url: 'https://rbrandonc.com:1337/api/destination',
         data: jsonData,
         dataType: 'json'
       })
@@ -486,7 +482,7 @@ function loadPlaces() {
     })
     .done(function (data) {
       places = data;
-      console.log(places);
+      //console.log(places);
       placesTable.empty();
       var tr = $('<tr>');
       for (var i = 0; i < places.length; i++) {
@@ -511,37 +507,35 @@ $(document).ready(function () {
   loadPlaces();
 
   $('#placesBody').click(function (event) {
-  var target = event.target.innerHTML.split('<')[0];
-  var result;
-  if (target.length > 0) { // must have clicked on destination
-    result = $.grep(places, function (e) {
-      return e.nearbyLocationName == target;
-    });
-    if (result.length === 0) {
-      // not found
-    } else {
-      restoreDestination(result[0]);
+    var target = event.target.innerHTML.split('<')[0];
+    var result;
+    if (target.length > 0) { // must have clicked on destination
+      result = $.grep(places, function (e) {
+        return e.nearbyLocationName == target;
+      });
+      if (result.length === 0) {
+        // not found
+      } else {
+        restoreDestination(result[0]);
+      }
+    } else { // must have clicked delete button
+      result = $.grep(places, function (e) {
+        return e.nearbyLocationName == event.target.id;
+      });
+      if (result.length === 0) {
+        // not found
+      } else {
+        var id = result[0]._id;
+        removeDestination(id);
+      }
     }
-  } else { // must have clicked delete button
-    result = $.grep(places, function (e) {
-      return e.nearbyLocationName == event.target.id;
-    });
-    if (result.length === 0) {
-      // not found
-    } else {
-      var id = result[0]._id;
-      removeDestination(id);
-    }
-  }
+  });
 });
-});
-
-
 
 function removeDestination(locationID) {
   $.ajax({
       type: 'DELETE',
-      url: 'https://localhost:1337/api/destination/' + locationID
+      url: 'https://rbrandonc.com:1337/api/destination/' + locationID
     })
     .done(function () {
       console.log('Destination deleted');
@@ -553,7 +547,7 @@ function removeDestination(locationID) {
 }
 
 function restoreDestination(destination) {
-  console.log(destination);
+  //console.log(destination);
   $('#location').val(destination.nearbyLocationName);
   $('#destination').addClass('hidden');
   moveMarker({
