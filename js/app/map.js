@@ -396,9 +396,11 @@ function openTab(event, tabName) {
     $('#places').css('display', 'block');
     $('#places').addClass('active');
     loadPlaces();
+    console.log(places);
   }
-  // tabcontent = $('.tabcontent');
 }
+
+var places;
 
 function loadPlaces() {
   $.ajax({
@@ -407,6 +409,7 @@ function loadPlaces() {
       dataType: 'json'
     })
     .done(function (data) {
+      places = data;
       var placesTable = $('#placesBody');
       placesTable.empty();
       for (var i = 0; i < data.length; i++) {
@@ -420,5 +423,5 @@ function loadPlaces() {
 }
 
 $(document).ready(function () {
-  document.getElementById("weatherTab").click();
+  document.getElementById('weatherTab').click();
 });
