@@ -3,9 +3,9 @@ Database Schema
 {
 	"id": <ObjectID>,
 	"dateCreated": <String>,
-	"latitude": <float>,
-	"longitude": <float>,
-	"locationName": <string>,
+	"startingLatitude": <float>,
+	"startingLongitude": <float>,
+	"startingLocationName": <string>,
 	"distance": <int>,
 	"nearbyLocationLatitude": <float>,
 	"nearbyLocationLongitude": <float>,

@@ -175,7 +175,6 @@ function initMap() {
     lookupLocationName(geocoder, currentLatLng);
 
     apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + currentLatLng.lat() + ',' + currentLatLng.lng();
-    // console.log(apiURL);
     $.ajax({ // weather API call
         url: apiURL,
         dataType: 'jsonp' // TODO: if I ever feel like being a good programmer, change to CORS request
@@ -218,10 +217,8 @@ function initMap() {
     e.preventDefault(); // prevent map from reloading
 
     /*var place = geocoder.geocode($("#location").val());
-
     if (place) {
       var result = place.results[1];
-
       var latlng = {
         lat: result.geometry.location.lat,
         lng: result.geometry.location.lng
@@ -238,8 +235,7 @@ function initMap() {
       $('#nearbyLocation').html('&nbsp;&nbsp;&nbsp;' + nearbyLocation.vicinity + '&nbsp;&nbsp;&nbsp;');
 
       apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + nearbyLocation.geometry.location.lat() + ',' + nearbyLocation.geometry.location.lng();
-      // console.log(apiURL);
-      $.ajax({ // weather API call
+      /*$.ajax({ // weather API call
           url: apiURL,
           dataType: 'jsonp' // TODO: if I ever feel like being a good programmer, change to CORS request
         })
@@ -253,7 +249,7 @@ function initMap() {
         })
         .fail(function (xhr, textStatus, error) {
           console.log(xhr.responseText);
-        });
+        });*/
     });
   });
 
@@ -269,9 +265,9 @@ function initMap() {
     jsonData.startingLongitude = currentLatLng.lng();
     jsonData.startingLocationName = $('#location').val();
     jsonData.distance = $('#distance').val();
-    jsonData.nearbyLocationName = destination;
-    jsonData.nearbyLocationLatitude = lat; //changed these to work with click and go button
+    jsonData.nearbyLocationLatitude = lat;
     jsonData.nearbyLocationLongitude = lng;
+    jsonData.nearbyLocationName = destination;
     var days = ["day0", "day1", "day2", "day3", "day4"];
     for (var i = 0; i < 5; i++) {
       days[i] = {
@@ -357,11 +353,8 @@ var parseWeather = function (data) {
 
     $('#day' + i + ' .temp').empty();
     $('#day' + i + ' .temp').text(temp);
-
     $('#day' + i + ' .forecast').empty();
     $('#day' + i + ' .forecast').text(forecast);
-
-    //$('#day' + i + ' .forecast').empty();
     $('#day' + i + 'icon').html("<img src=" + "/images/Weather/" + data.daily.data[i].icon + ".png" + " alt=" + " weathericon" + "height = " + "50" + " width= " + " 50" + ">");
   }
 };
@@ -386,3 +379,50 @@ var fillDates = function () {
     date.setDate(date.getDate() + 1);
   }
 };
+
+/*
+Switches tabs in index.pug
+*/
+function openTab(event, tabName) {
+  var i, tabcontent, tablinks;
+  if (tabName === 'weather') {
+    $('#places').removeClass('active');
+    $('#places').css('display', 'none');
+    $('#weather').css('display', 'block');
+    $('#weather').addClass('active');
+  } else if (tabName === 'places') {
+    $('#weather').removeClass('active');
+    $('#weather').css('display', 'none');
+    $('#places').css('display', 'block');
+    $('#places').addClass('active');
+    loadPlaces();
+  }
+  // tabcontent = $('.tabcontent');
+}
+
+function loadPlaces() {
+  $.ajax({
+      type: 'GET',
+      url: 'https://localhost:1337/api/destinations',
+      dataType: 'json'
+    })
+    .done(function (data) {
+      console.log(data);
+      // console.log(data[0].nearbyLocationName);
+      var placesTable = $('#placesBody');
+      placesTable.empty();
+      for (var i = 0; i < data.length; i++) {
+        placesTable.append('<td>' + data[i].nearbyLocationName + '</td>');
+      }
+    })
+    .fail(function (xhr, textStatus, error) {
+      $('placesTable').text("You don't have any destinations saved.");
+      console.log(xhr.responseText);
+    });
+
+  console.log('loading/.');
+}
+
+$(document).ready(function () {
+  document.getElementById("weatherTab").click();
+});

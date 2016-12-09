@@ -26,47 +26,57 @@ html
 
     div#bottom
       div#titlebar 
-        text Forecast&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;My Places
-      table#forecast
-        thead
-          tr
-            th.date#day0date(colspan="2").shadow
-            th.date#day1date(colspan="2").shadow
-            th.date#day2date(colspan="2").shadow
-            th.date#day3date(colspan="2").shadow
-            th.date#day4date(colspan="2").shadow
-        tbody
-          tr
-            td.day#day0
-              text.temp 42°/23°
-              br
-              text.forecast Mostly Sunny
-            td.icon.shadow#day0icon
-              img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
-            td.day#day1
-              text.temp 44°/25°
-              br
-              text.forecast Mostly Sunny
-            td.icon.shadow#day1icon
-              img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
-            td.day#day2
-              text.temp 48°/40°
-              br
-              text.forecast Mostly Sunny
-            td.icon.shadow#day2icon
-              img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
-            td.day#day3
-              text.temp 58°/31°
-              br
-              text.forecast Mostly Sunny
-            td.icon.shadow#day3icon
-              img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
-            td.day#day4
-              text.temp 50°/33°
-              br
-              text.forecast Mostly Sunny
-            td.icon.shadow#day4icon
-              img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
+        div#tabs
+          ul.tab
+            li
+              a.tablinks(href='javascript:void(0)', onclick="openTab(event, 'weather')", id='weatherTab') Forecast
+            li
+              a.tablinks(href='javascript:void(0)', onclick="openTab(event, 'places')", id='placesTab') My Places
+          #weather.tabContent
+            table#forecast
+              thead
+                tr
+                  th.date#day0date(colspan="2").shadow
+                  th.date#day1date(colspan="2").shadow
+                  th.date#day2date(colspan="2").shadow
+                  th.date#day3date(colspan="2").shadow
+                  th.date#day4date(colspan="2").shadow
+              tbody
+                tr
+                  td.day#day0
+                    text.temp 42°/23°
+                    br
+                    text.forecast Mostly Sunny
+                  td.icon.shadow#day0icon
+                    img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
+                  td.day#day1
+                    text.temp 44°/25°
+                    br
+                    text.forecast Mostly Sunny
+                  td.icon.shadow#day1icon
+                    img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
+                  td.day#day2
+                    text.temp 48°/40°
+                    br
+                    text.forecast Mostly Sunny
+                  td.icon.shadow#day2icon
+                    img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
+                  td.day#day3
+                    text.temp 58°/31°
+                    br
+                    text.forecast Mostly Sunny
+                  td.icon.shadow#day3icon
+                    img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
+                  td.day#day4
+                    text.temp 50°/33°
+                    br
+                    text.forecast Mostly Sunny
+                  td.icon.shadow#day4icon
+                    img(src="/images/logo.png" alt="weathericon" height="30px" width="30px")
+          #places.tabContent
+            table#placesTable
+              tbody#placesBody
+                td
         
     footer
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js")

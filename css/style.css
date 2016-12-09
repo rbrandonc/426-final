@@ -52,7 +52,7 @@ body {
 #bottom {
 	background-color: #ffffff;
 	width: 100%;
-	height: 150px;
+	height: 200px;
 	box-shadow: 0px -2px 20px 0px black;
 	z-index: 1;
 }
@@ -77,11 +77,6 @@ body {
 .date {
 	color: #7BAFD4;
 }
-
-
-/*Apply this style to the "best day" need to compute scores*/
-
-.bestday {}
 
 .flexcontainer {
 	display: flex;
@@ -186,6 +181,49 @@ th {
 	text-decoration: underline;
 }
 
-.icon{
-	
+.icon {}
+
+ul.tab {
+	/* Style the list */
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 1px solid #ccc;
+	background-color: #f1f1f1;
+}
+
+ul.tab li {
+	/* Float the list items side by side */
+	float: left;
+}
+
+ul.tab li a {
+	/* Style the links inside the list items */
+	display: inline-block;
+	color: black;
+	text-align: center;
+	padding: 4px 4px;
+	text-decoration: none;
+	transition: 0.3s;
+	font-size: 15px;
+}
+
+ul.tab li a:hover {
+	/* Change background color of links on hover */
+	background-color: #ddd;
+}
+
+ul.tab li a:focus,
+.active {
+	/* Create an active/current tablink class */
+	background-color: #ccc;
+}
+
+.tabcontent {
+	/* Style the tab content */
+	display: none;
+	padding: 5px 5px;
+	border: 1px solid #ccc;
+	border-top: none;
 }
