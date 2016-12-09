@@ -13,7 +13,7 @@ function initMap() {
       lat: 40.674,
       lng: -73.945
     },
-    zoom: 7,
+    zoom: 8,
     disableDefaultUI: true,
     styles: [{
       "featureType": "all",
@@ -235,7 +235,7 @@ function initMap() {
       $('#nearbyLocation').html('&nbsp;&nbsp;&nbsp;' + nearbyLocation.vicinity + '&nbsp;&nbsp;&nbsp;');
 
       apiURL = 'https://api.darksky.net/forecast/71488576b366d3016856ce988de83f70/' + nearbyLocation.geometry.location.lat() + ',' + nearbyLocation.geometry.location.lng();
-      /*$.ajax({ // weather API call
+      $.ajax({ // weather API call
           url: apiURL,
           dataType: 'jsonp' // TODO: if I ever feel like being a good programmer, change to CORS request
         })
@@ -249,7 +249,7 @@ function initMap() {
         })
         .fail(function (xhr, textStatus, error) {
           console.log(xhr.responseText);
-        });*/
+        });
     });
   });
 
@@ -319,8 +319,8 @@ function lookupLocationName(geocoder, location) {
 }
 
 /*
-  Find nearby location when user clicks 'go'
-  */
+Find nearby location when user clicks 'go'
+*/
 var findNearbyLocation = function (placesService, coordinates, callbackFn) {
   distance = $('#distance').val() * 1609.344; // convert to meters
   var request = {
@@ -396,13 +396,13 @@ function openTab(event, tabName) {
     $('#places').css('display', 'block');
     $('#places').addClass('active');
     loadPlaces();
-    console.log(places);
   }
 }
 
 var places;
 
 function loadPlaces() {
+  var placesTable = $('#placesBody');
   $.ajax({
       type: 'GET',
       url: 'https://localhost:1337/api/destinations',
@@ -410,18 +410,40 @@ function loadPlaces() {
     })
     .done(function (data) {
       places = data;
-      var placesTable = $('#placesBody');
       placesTable.empty();
-      for (var i = 0; i < data.length; i++) {
-        placesTable.append('<td>' + data[i].nearbyLocationName + '</td>');
+      var rows = 4;
+      var cols = Math.ceil(data.length / 4);
+      var placeInDataArr = 0;
+      for (var i = 0; i < rows; i++) {
+        var tr = $('<tr>');
+        for (var j = 0; j < cols; j++) {
+          $('<td>' + places[placeInDataArr].nearbyLocationName + '</td>').appendTo(tr);
+          placeInDataArr++; // this throws errors if not perfect number but oh well it keeps going
+        }
+        tr.appendTo(placesTable);
       }
     })
     .fail(function (xhr, textStatus, error) {
-      $('placesTable').text("You don't have any destinations saved.");
+      placesTable.text("You don't have any destinations saved.");
       console.log(xhr.responseText);
     });
 }
 
 $(document).ready(function () {
   document.getElementById('weatherTab').click();
+  loadPlaces();
+});
+
+$('#placesBody').click(function (event) {
+  var target = event.target.innerHTML;
+  var result = $.grep(places, function (e) {
+    return e.nearbyLocationName == target;
+  });
+  if (result.length === 0) {
+    // not found
+  } else if (result.length === 1) {
+    console.log(result);
+  } else {
+    // multiple items found
+  }
 });

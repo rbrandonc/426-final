@@ -178,12 +178,10 @@ th {
 }
 
 #nearbyLocation {
-	text-decoration: underline;
+	border-bottom: solid black 1px;
 }
 
-.icon {
-
-}
+.icon {}
 
 ul.tab {
 	/* Style the list */
@@ -191,16 +189,14 @@ ul.tab {
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	
 	background-color: #f1f1f1;
-
 	width: 100%;
 	background-color: #7BAFD4;
 	color: #000;
 	text-align: center;
 	/*box-shadow: inset 0px 0px 10px -2px black;*/
 	box-shadow: 0px 0px 10px 0px black;
-	height: 20px;
+	height: 25px;
 	vertical-align: center;
 	z-index: 0;
 	padding: 0;
@@ -219,7 +215,7 @@ ul.tab li a {
 	display: inline-block;
 	color: black;
 	text-align: center;
-	padding: 4px 4px;
+	padding: 5px 7px;
 	text-decoration: none;
 	transition: 0.3s;
 	font-size: 15px;
@@ -233,24 +229,38 @@ ul.tab li a:hover {
 ul.tab li a:focus,
 .active {
 	/* Create an active/current tablink class */
-	background-color: #ccc;
+	/*background-color: #ccc;*/
 }
 
 .tabcontent {
 	/* Style the tab content */
 	display: none;
-	border: 1px solid #ccc;
+	/*border: 1px solid #ccc;*/
 	border-top: none;
 	margin: 0;
 	padding: 0;
 }
 
-#bottom{
+#bottom {
 	margin: 0;
 	padding: 0;
 }
 
-#tabs{
+#tabs {
 	margin: 0;
 	padding: 0;
+}
+
+#places {
+	padding: 10px;
+	height: 184px;
+}
+
+#placesTable td {
+	padding: 10px;
+}
+
+#placesTable tbody td:hover {
+	padding: 10px;
+	background-color: rgba(221, 221, 221, .9);
 }
