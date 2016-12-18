@@ -7,17 +7,17 @@ var db = mongojs('mongodb://audrey:audrey@ds127958.mlab.com:27958/tripplanner', 
 // get all destinations
 router.get('/destinations', function (req, res, next) {
   //console.log(req.query.uid);
-
   var request = req.body;
 
-  db.destinations.find(
-    {"uid": req.query.uid},
+  db.destinations.find({
+      "uid": req.query.uid
+    },
 
     function (err, destinations) {
       if (err) {
         res.send(err);
       }
-        res.json(destinations);
+      res.json(destinations);
     });
 });
 
