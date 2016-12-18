@@ -2,6 +2,9 @@
 
 Trip Planner
 
+<img src="vac2" width="900"/>
+
+
 Built with Node.js, Express.js, MongoDB, Angular 2
 APIs used - Google Maps, Dark Sky weather
 
